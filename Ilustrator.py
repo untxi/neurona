@@ -1,9 +1,8 @@
+import numpy as np
 import matplotlib.pyplot as plt
 import Neuron
 
 class Ilustrator:
-    
-
     def __init__(self):
         self.puntosIzq = []
         self.puntosDer = []
@@ -16,7 +15,9 @@ class Ilustrator:
         self.xDer = []
         self.yDer = []
         self.xIzq = []
-        self.yIzq= []
+        self.yIzq = []
+        self.maxX = 0
+        self.minX = 0
 
     def setValues(self, newNeuron):
         self.puntosIzq = newNeuron.getConjC1()
@@ -43,29 +44,35 @@ class Ilustrator:
             self.xDer.append(point[0])
             self.yDer.append(point[1])
 
+    def getMinX(self):
+        #el x mas pequenio de la derecha C2
+        temp = list(self.xDer)
+        temp.sort()
+        return(temp[0])
+
+    def getMaxX(self):
+        #el x mas grande de la izquierda c1
+        temp = list(self.xIzq)
+        temp.sort()
+        return(temp[-1])
+
+
+    def line(self):
+        """
+        https://www.reddit.com/r/learnpython/comments/298zbc/all_i_want_is_to_plot_a_simple_ymxb_function/
+
+        http://code.activestate.com/lists/python-tutor/82380/
+        """
+        # min x y max x de los puntos de un lado para dividir $
+        #x = np.linspace(int(self.getMinX()), int(self.getMaxX()))
+
+        fig,ax = plt.subplots()
+        ax.plot(self.x, self.m*self.x+self.b )
     
     def draw(self):
         self.getDer()
         self.getIzq()
-        plt.plot(self.x, self.y) # linea divisoria
+        self.line()# linea divisoria
         plt.scatter(self.xIzq, self.yIzq, marker='o') #conjunto izquierdo
         plt.scatter(self.xDer, self.yDer, marker='^') #conjunto derecho
         plt.show()
-
-
-#working on line
-def auxLine():
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    AB = np.random.randn(100,2) #create a random array of [[A1,B1],[A2,B2],...] as $
-
-    x = np.linspace(-100.,100.)
-
-    fig,ax = plt.subplots()
-    ax.plot(x, 13*x+10 )
-
-    ax.set_xlim((-100.,100.))
-    ax.set_ylim((-100.,100.))
-
-    plt.show()
